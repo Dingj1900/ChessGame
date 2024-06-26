@@ -1,4 +1,4 @@
-package ChessClasses;
+package rules_of_chess;
 
 import java.util.Scanner;
 
@@ -7,14 +7,14 @@ public class ValidationCheckForPiece {
 
     private boolean isWhiteTurn;
 
-    private String [][] chessBoard;
+    private String [][] Board;
 
     private String piece = new String();
 
 
-    public ValidationCheckForPiece(String [][] chessBoard, boolean isWhiteTurn){
+    public ValidationCheckForPiece(String [][] Board, boolean isWhiteTurn){
         this.isWhiteTurn = isWhiteTurn;
-        this.chessBoard = chessBoard;
+        this.Board = Board;
     }
 
 
@@ -121,7 +121,7 @@ public class ValidationCheckForPiece {
     public String getChessPiece(){
         int column = pieceLocation[0];
         int row = pieceLocation[1];
-        String piece = chessBoard[column][row];
+        String piece = Board[column][row];
 
         return piece;
     }

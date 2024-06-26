@@ -1,9 +1,8 @@
 package ChessClasses;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Stack;
+import items_of_chess_game.Board;
+import rules_of_chess.CanBeAttacked;
+import rules_of_chess.ValidationCheckForPiece;
 
 public class Application {
 
@@ -13,9 +12,9 @@ public class Application {
         boolean game = true;
         boolean isWhiteTurn = true; //white start first
 
-        ChessBoard chessBoard = new ChessBoard();
-        InCheck checkForCheck = new InCheck();
-        ValidationCheckForPiece validationCheckForPiece = new ValidationCheckForPiece(chessBoard.getChessBoard(), isWhiteTurn);
+        Board Board = new Board();
+        CanBeAttacked checkForCheck = new CanBeAttacked();
+        ValidationCheckForPiece validationCheckForPiece = new ValidationCheckForPiece(Board.getBoard(), isWhiteTurn);
 
 
 
@@ -29,7 +28,7 @@ public class Application {
 
             isWhiteTurn = !isWhiteTurn;//switch colors
 
-            chessBoard.flipBoard();//switch board for colors
+            Board.flipBoard();//switch board for colors
         }
 
 

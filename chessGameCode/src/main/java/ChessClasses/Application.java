@@ -8,6 +8,7 @@ public class Application {
 
     public static void main(String[] args) {
 
+        System.out.println(3-4);
         //While the game is continuing, game = true;
         boolean game = true;
         boolean isWhiteTurn = true; //white start first
@@ -21,9 +22,6 @@ public class Application {
         while (game){
 
 
-            validationCheckForPiece.getValidGamePiece();
-            int [] chessPieceLocation = piece.getValidGamePiece();
-            String chessPieceType = piece.getChessPiece();
 
 
             isWhiteTurn = !isWhiteTurn;//switch colors

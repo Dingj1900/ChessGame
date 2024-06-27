@@ -3,12 +3,12 @@ package rules_of_chess;
 import items_of_chess_game.Board;
 import items_of_chess_game.Piece;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Stack;
+
 
 public class CanBeAttacked {
 
-    List<Piece> attackStackList = new ArrayList<>();
+    Stack<Piece> attackStackList = new Stack<>();
 
     String enemyColor;
     int column;
@@ -20,11 +20,14 @@ public class CanBeAttacked {
 
 
     /*
-    returns false for no attacks
+    parameter: Piece [][] object, boolean, int [] of size 2 at least
+    returns false for no attacks and invalid pieceLocation size
     returns true for attacks
     */
     public boolean isThereAnAttacks(Piece [][] Board, boolean isWhiteTurn, int [] pieceLocation){
-
+        if(pieceLocation.length < 2){
+            return false;
+        }
         setBoard(Board);
 
         {
@@ -53,7 +56,7 @@ public class CanBeAttacked {
             southWestDiagonalAttackedSide();
         }
 
-        //horse
+        //Knight
         {
             northHorseAttackedSide();
             southHorseAttackedSide();
@@ -68,16 +71,16 @@ public class CanBeAttacked {
     }
 
     public void resetAttackStackList() {
-        this.attackStackList = new ArrayList<>();
+        this.attackStackList = new Stack<>();
     }
-    public List<Piece> getattackStackList(){
+    public Stack<Piece> getAttackStackList(){
         return attackStackList;
     }
     public void setBoard(Piece [][] board) {
         this.chessBoard = board;
     }
 
-    private void setEnemyColor(Boolean isWhiteTurn){
+    public void setEnemyColor(Boolean isWhiteTurn){
         if(isWhiteTurn){
             this.enemyColor = "Black";
         }else {
@@ -90,7 +93,7 @@ public class CanBeAttacked {
     if yes, add piece to the attackStackList
     WILL RESET column and row to originalColumn and originalRow at the end
     */
-    private void checkForEnemyAtLocation(String firstAttacker, String secondAttacker){
+    public void checkForEnemyAtLocation(String firstAttacker, String secondAttacker){
 
         String [] separateColorAndName = chessBoard[column][row].getName().split(" ");
 
@@ -99,14 +102,34 @@ public class CanBeAttacked {
             if (separateColorAndName[1].equals(firstAttacker) || separateColorAndName[1].equals(secondAttacker)){
 
                 Piece enemyAttackingPiece = chessBoard[column][row];
-                attackStackList.add(enemyAttackingPiece);
+                attackStackList.push(enemyAttackingPiece);
             }
         }
         column = originalColumn;
         row = originalRow;
     }
+    
+    /*
+    for pawns checks
+    helps preventing kings from touching on their move
+    DOES NOT RESET the columns or rows
+    */
+    public void checkForEnemyCloseBy(String attacker){
 
-    private void leftAttackedSide(){
+        String [] separateColorAndName = chessBoard[column][row].getName().split(" ");
+
+        if(separateColorAndName[0].equals(enemyColor)){
+
+            if (separateColorAndName[1].equals(attacker)){
+
+                Piece enemyAttackingPiece = chessBoard[column][row];
+                attackStackList.push(enemyAttackingPiece);
+            }
+        }
+        
+    }
+
+    public void leftAttackedSide(){
 
         //check left
         while(column >= 0){
@@ -119,13 +142,16 @@ public class CanBeAttacked {
         if (column == -1){
             //empty
         }else{
+            if(column == originalColumn - 1){
+                checkForEnemyCloseBy("King");
+            }
             checkForEnemyAtLocation("Rook", "Queen");
         }
 
 
     }
 
-    private void rightAttackedSide(){
+    public void rightAttackedSide(){
 
         //check left
         while(column <= 7){
@@ -138,11 +164,14 @@ public class CanBeAttacked {
         if (column == 8){
             //empty
         }else{
+            if(column == originalColumn + 1){
+                checkForEnemyCloseBy("King");
+            }
             checkForEnemyAtLocation("Rook","Queen");
         }
     }
 
-    private void frontAttackedSide(){
+    public void frontAttackedSide(){
 
         //check left
         while(row <= 7){
@@ -155,11 +184,14 @@ public class CanBeAttacked {
         if (row == 8){
             //empty
         }else{
+            if(row == originalRow + 1){
+                checkForEnemyCloseBy("King");
+            }
             checkForEnemyAtLocation("Rook", "Queen");
         }
     }
 
-    private void backAttackedSide(){
+    public void backAttackedSide(){
 
         //check left
         while(row >= 0){
@@ -172,12 +204,14 @@ public class CanBeAttacked {
         if (row == -1){
             //empty
         }else{
-
+            if(row == originalRow - 1){
+                checkForEnemyCloseBy("King");
+            }
             checkForEnemyAtLocation("Rook", "Queen");
         }
     }
 
-    private void northWestDiagonalAttackedSide(){
+    public void northWestDiagonalAttackedSide(){
 
         //check left
         while(row <= 7 || column >= 0){
@@ -191,28 +225,18 @@ public class CanBeAttacked {
         if (row == 8 || column == -1){
             //empty
         }else{
-
-            String [] separateColorAndName = chessBoard[column][row].getName().split(" ");
-
-            //if the attacking piece is an enemy
-            if(separateColorAndName.equals(enemyColor)){
-
-                //for pawn, location needs on the piece's northwest by one to attack
-                if(separateColorAndName[1].equals("Pawn")){
-                    if(originalColumn - 1 == column && originalRow + 1 ==row){
-
-                        Piece enemyAttackingPiece = chessBoard[column][row];
-                        attackStackList.add(enemyAttackingPiece);
-                    }
-                }
-
+            
+            if(originalColumn - 1 == column && originalRow + 1 == row){
+                checkForEnemyCloseBy("Pawn");
+                checkForEnemyCloseBy("King");
             }
+            
 
             checkForEnemyAtLocation("Bishop","Queen");
         }
     }
 
-    private void northEastDiagonalAttackedSide(){
+    public void northEastDiagonalAttackedSide(){
 
         //check left
         while(row <= 7 || column <= 7){
@@ -227,21 +251,17 @@ public class CanBeAttacked {
             //empty
         }else{
 
-            String [] separateColorAndName = chessBoard[column][row].getName().split(" ");
-            //for pawn
-            if(separateColorAndName[0].equals(enemyColor)){
-
-                if(originalColumn + 1 == column && originalRow + 1 == row){
-                    Piece enemyAttackingPiece = chessBoard[column][row];
-                    attackStackList.add(enemyAttackingPiece);
-                }
+            if(originalColumn + 1 == column && originalRow + 1 == row){
+                checkForEnemyCloseBy("Pawn");
+                checkForEnemyCloseBy("King");
             }
+            
             checkForEnemyAtLocation("Bishop","Queen");
 
         }
     }
 
-    private void southWestDiagonalAttackedSide(){
+    public void southWestDiagonalAttackedSide(){
 
         //check left
         while(row >= 0  || column >= 0){
@@ -255,12 +275,15 @@ public class CanBeAttacked {
         if (row == -1 || column == -1){
             //empty
         }else{
+            if(column == originalColumn - 1 && row == originalRow -1){
+                checkForEnemyCloseBy("King");
+            }
             checkForEnemyAtLocation("Bishop","Queen");
 
         }
     }
 
-    private void southEastDiagonalAttackedSide(){
+    public void southEastDiagonalAttackedSide(){
 
         //check left
         while(row >= 0 && column <= 7){
@@ -274,13 +297,16 @@ public class CanBeAttacked {
         if (row == -1 || column == 8){
             //empty
         }else{
+            if(column == originalColumn + 1 && row == originalRow - 1){
+                checkForEnemyCloseBy("King");
+            }
 
             checkForEnemyAtLocation("Bishop", "Queen");
         }
     }
 
 
-    private void northHorseAttackedSide(){
+    public void northHorseAttackedSide(){
         if(row + 2 < 8){
             row = row + 2;
             if(column + 1 < 8){
@@ -300,7 +326,7 @@ public class CanBeAttacked {
         }
     }
 
-    private void southHorseAttackedSide(){
+    public void southHorseAttackedSide(){
         if(row - 2 > -1){
             row = row - 2;
             if(column + 1 < 8){
@@ -319,7 +345,7 @@ public class CanBeAttacked {
         }
     }
 
-    private void westHorseAttackedSide(){
+    public void westHorseAttackedSide(){
         if(column - 2 > -1){
             column = column - 2;
 
@@ -339,7 +365,7 @@ public class CanBeAttacked {
         }
     }
 
-    private void eastHorseAttackedSide(){
+    public void eastHorseAttackedSide(){
         if(column + 2 < 8){
             column = column + 2;
 

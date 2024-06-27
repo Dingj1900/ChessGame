@@ -20,7 +20,13 @@ public class Rook implements Piece {
         this.name = name;
     }
     @Override
-    public void setLocation(int[] location) {
-        this.location = location;
+    public void setLocation(int column, int row) {
+        this.location[0] = column;
+        this.location[1] = row;
+    }
+
+    @Override
+    public int[] getLocation() {
+        return new int[0];
     }
 }

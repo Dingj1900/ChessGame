@@ -12,6 +12,8 @@ public interface Piece {
     public String getName();
 
     public void setName(String name);
-    public void setLocation(int[] location);
+    public void setLocation(int column, int row);
+
+    public int[] getLocation();
 
 }

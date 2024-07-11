@@ -1,34 +1,45 @@
 package rules_of_chess;
 
-import items_of_chess_game.Board;
 import items_of_chess_game.Piece;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 
-public class CanBeAttacked {
+public class CheckForAttacksAtLocation {
 
-    Stack<Piece> attackStackList = new Stack<>();
+    private Stack<Piece> attackStackList = new Stack<>();
 
-    String enemyColor;
-    int column;
-    int row;
-    int originalColumn;
-    int originalRow;
+    private List<int []> spaces = new ArrayList<>();
 
-    Piece[][] chessBoard = new Piece[8][8];
+    private int [] newSpace = new int[2];
 
+    private String enemyColor;
+    private int column;
+    private int row;
+    private int originalColumn;
+    private int originalRow;
+
+    private boolean isWhiteTurn;
+
+    Piece[][] chessBoard;
+
+    public CheckForAttacksAtLocation(Piece [][] chessBoard, boolean isWhiteTurn){
+        this.chessBoard = chessBoard;
+        this.isWhiteTurn = isWhiteTurn;
+        setEnemyColor(isWhiteTurn);
+    }
 
     /*
     parameter: Piece [][] object, boolean, int [] of size 2 at least
     returns false for no attacks and invalid pieceLocation size
     returns true for attacks
     */
-    public boolean isThereAnAttacks(Piece [][] Board, boolean isWhiteTurn, int [] pieceLocation){
+    public boolean isThereAnAttacks(int [] pieceLocation){
         if(pieceLocation.length < 2){
             return false;
         }
-        setBoard(Board);
 
         {
             setEnemyColor(isWhiteTurn);
@@ -70,16 +81,33 @@ public class CanBeAttacked {
         return true;
     }
 
+    public List<int[]> getSpaces(){
+        return spaces;
+    }
+
+    public void setColumn(int column){
+        this.column = column;
+        this.originalColumn = column;
+    }
+
+    public void setRow(int row){
+        this.row = row;
+        this.originalRow = row;
+    }
+
     public void resetAttackStackList() {
         this.attackStackList = new Stack<>();
     }
     public Stack<Piece> getAttackStackList(){
         return attackStackList;
     }
-    public void setBoard(Piece [][] board) {
-        this.chessBoard = board;
+
+    public void setChessBoard(Piece[][] chessBoard) {
+        this.chessBoard = chessBoard;
     }
 
+    //set enemy color to white if param is black/true
+    //set enemy color to black if param is white/true
     public void setEnemyColor(Boolean isWhiteTurn){
         if(isWhiteTurn){
             this.enemyColor = "Black";
@@ -95,11 +123,16 @@ public class CanBeAttacked {
     */
     public void checkForEnemyAtLocation(String firstAttacker, String secondAttacker){
 
-        String [] separateColorAndName = chessBoard[column][row].getName().split(" ");
+        Piece piece = chessBoard[column][row];
 
-        if(separateColorAndName[0].equals(enemyColor)){
 
-            if (separateColorAndName[1].equals(firstAttacker) || separateColorAndName[1].equals(secondAttacker)){
+        if(piece.getColor().equals(enemyColor)){
+
+            if (piece.getName().equals(firstAttacker) || piece.getName().equals(secondAttacker)){
+
+                newSpace[0] = column;
+                newSpace[1] = row;
+                spaces.add(newSpace);
 
                 Piece enemyAttackingPiece = chessBoard[column][row];
                 attackStackList.push(enemyAttackingPiece);
@@ -116,11 +149,15 @@ public class CanBeAttacked {
     */
     public void checkForEnemyCloseBy(String attacker){
 
-        String [] separateColorAndName = chessBoard[column][row].getName().split(" ");
+        Piece piece = chessBoard[column][row];
 
-        if(separateColorAndName[0].equals(enemyColor)){
+        if(piece.getColor().equals(enemyColor)){
 
-            if (separateColorAndName[1].equals(attacker)){
+            if (piece.getName().equals(attacker)){
+
+                newSpace[0] = column;
+                newSpace[1] = row;
+                spaces.add(newSpace);
 
                 Piece enemyAttackingPiece = chessBoard[column][row];
                 attackStackList.push(enemyAttackingPiece);
@@ -131,9 +168,17 @@ public class CanBeAttacked {
 
     public void leftAttackedSide(){
 
+
+
+
         //check left
         while(column >= 0){
             if(!chessBoard[column][row].getName().isBlank()){
+
+                newSpace[0] = column;
+                newSpace[1] = row;
+                spaces.add(newSpace);
+
                 break;
             }
             column--;
@@ -156,6 +201,11 @@ public class CanBeAttacked {
         //check left
         while(column <= 7){
             if(!chessBoard[column][row].getName().isBlank()){
+
+                newSpace[0] = column;
+                newSpace[1] = row;
+                spaces.add(newSpace);
+
                 break;
             }
             column++;
@@ -176,6 +226,11 @@ public class CanBeAttacked {
         //check left
         while(row <= 7){
             if(!chessBoard[column][row].getName().isBlank()){
+
+                newSpace[0] = column;
+                newSpace[1] = row;
+                spaces.add(newSpace);
+
                 break;
             }
             row++;
@@ -196,6 +251,11 @@ public class CanBeAttacked {
         //check left
         while(row >= 0){
             if(!chessBoard[column][row].getName().isBlank()){
+
+                newSpace[0] = column;
+                newSpace[1] = row;
+                spaces.add(newSpace);
+
                 break;
             }
             row--;
@@ -216,6 +276,11 @@ public class CanBeAttacked {
         //check left
         while(row <= 7 || column >= 0){
             if(!chessBoard[column][row].getName().isBlank()){
+
+                newSpace[0] = column;
+                newSpace[1] = row;
+                spaces.add(newSpace);
+
                 break;
             }
             row++;
@@ -241,6 +306,11 @@ public class CanBeAttacked {
         //check left
         while(row <= 7 || column <= 7){
             if(!chessBoard[column][row].getName().isBlank()){
+
+                newSpace[0] = column;
+                newSpace[1] = row;
+                spaces.add(newSpace);
+
                 break;
             }
             row++;
@@ -266,6 +336,11 @@ public class CanBeAttacked {
         //check left
         while(row >= 0  || column >= 0){
             if(!chessBoard[column][row].getName().isBlank()){
+
+                newSpace[0] = column;
+                newSpace[1] = row;
+                spaces.add(newSpace);
+
                 break;
             }
             row--;
@@ -288,6 +363,11 @@ public class CanBeAttacked {
         //check left
         while(row >= 0 && column <= 7){
             if(!chessBoard[column][row].getName().isBlank()){
+
+                newSpace[0] = column;
+                newSpace[1] = row;
+                spaces.add(newSpace);
+
                 break;
             }
             row--;
@@ -322,6 +402,9 @@ public class CanBeAttacked {
                 checkForEnemyAtLocation("Knight", "Empty");
 
             }
+            //resets
+            column = originalColumn;
+            row = originalRow;
 
         }
     }
@@ -341,6 +424,9 @@ public class CanBeAttacked {
 
                 checkForEnemyAtLocation("Knight", "Empty");
             }
+            //resets
+            column = originalColumn;
+            row = originalRow;
 
         }
     }
@@ -361,6 +447,9 @@ public class CanBeAttacked {
 
                 checkForEnemyAtLocation("Knight", "Empty");
             }
+            //resets
+            column = originalColumn;
+            row = originalRow;
 
         }
     }
@@ -381,6 +470,9 @@ public class CanBeAttacked {
 
                 checkForEnemyAtLocation("Knight", "Empty");
             }
+            //resets
+            column = originalColumn;
+            row = originalRow;
 
         }
     }

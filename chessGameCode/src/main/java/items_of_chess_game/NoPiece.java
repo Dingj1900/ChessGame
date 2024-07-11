@@ -2,17 +2,17 @@ package items_of_chess_game;
 
 public class NoPiece implements Piece {
 
-    private String name = "";
 
     private int [] location = new int[2];
 
     @Override
     public String getName() {
-        return name;
+        return "";
     }
+
     @Override
-    public void setName(String name) {
-        this.name = name;
+    public String getColor(){
+        return "";
     }
     @Override
     public void setLocation(int column, int row) {
@@ -22,6 +22,12 @@ public class NoPiece implements Piece {
 
     @Override
     public int[] getLocation() {
-        return new int[0];
+        return location;
+    }
+
+    @Override
+    public void setLocation(int[]location) {
+        this.location[0] = location[0];
+        this.location[1] = location[1];
     }
 }

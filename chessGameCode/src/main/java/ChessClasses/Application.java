@@ -1,7 +1,7 @@
 package ChessClasses;
 
 import items_of_chess_game.Board;
-import rules_of_chess.CanBeAttacked;
+import rules_of_chess.CheckForAttacksAtLocation;
 import rules_of_chess.ValidationCheckForPiece;
 
 public class Application {
@@ -14,7 +14,7 @@ public class Application {
         boolean isWhiteTurn = true; //white start first
 
         Board Board = new Board();
-        CanBeAttacked checkForCheck = new CanBeAttacked();
+        CheckForAttacksAtLocation checkForCheck = new CheckForAttacksAtLocation();
         ValidationCheckForPiece validationCheckForPiece = new ValidationCheckForPiece(Board.getBoard(), isWhiteTurn);
 
 

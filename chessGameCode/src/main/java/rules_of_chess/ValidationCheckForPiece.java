@@ -25,11 +25,11 @@ public class ValidationCheckForPiece {
 
         String whoTurnIsIt;
 
-        if(isWhiteTurn == true){
-            whoTurnIsIt = "white";
+        if(isWhiteTurn){
+            whoTurnIsIt = "White";
         }
         else{
-            whoTurnIsIt = "black";
+            whoTurnIsIt = "Black";
         }
 
         int[] location = new int[2];
@@ -92,7 +92,7 @@ public class ValidationCheckForPiece {
 
         if(!piece.getName().isBlank()){
 
-            if(piece.getName().charAt(0) == color){
+            if(piece.getColor().charAt(0) == color){
                 isCorrectPiece = true;
             }
         }

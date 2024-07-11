@@ -8,7 +8,6 @@ public class Board {
         Board = setUpBoard();
     }
 
-
     public int [][] getKingsLocation(){
         int [][] kingLocation = new int[2][2];
         kingLocation[0][0] = -1;
@@ -19,11 +18,11 @@ public class Board {
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if(Board[i][j].getName().equals("White King")){
+                if(Board[i][j].getName().equals("King") && Board[i][j].getColor().equals("White")){
                     kingLocation[0][0] = i;
                     kingLocation[0][1] = j;
                 }
-                if(Board[i][j].getName().equals("Black King")){
+                if(Board[i][j].getName().equals("King") && Board[i][j].getColor().equals("Black")){
                     kingLocation[1][0] = i;
                     kingLocation[1][1] = j;
                 }
@@ -119,6 +118,10 @@ public class Board {
 
     public Piece [][] getBoard(){
         return Board;
+    }
+
+    public void setBoard(Piece[][] board) {
+        Board = board;
     }
 
     public void flipBoard(){

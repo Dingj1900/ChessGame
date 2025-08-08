@@ -1,6 +1,6 @@
-package rules_of_chess;
+package com.game.rules_of_chess;
 
-import items_of_chess_game.Piece;
+import com.game.items_of_chess_game.Piece;
 
 import java.util.List;
 

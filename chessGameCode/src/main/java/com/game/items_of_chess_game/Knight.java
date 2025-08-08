@@ -1,6 +1,6 @@
-package items_of_chess_game;
+package com.game.items_of_chess_game;
 
-import rules_of_chess.CheckForAttacksAtLocation;
+import com.game.rules_of_chess.CheckForAttacksAtLocation;
 
 import java.util.List;
 

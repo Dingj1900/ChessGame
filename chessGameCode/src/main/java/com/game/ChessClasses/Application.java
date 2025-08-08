@@ -1,8 +1,8 @@
-package ChessClasses;
+package com.game;
 
-import items_of_chess_game.Board;
-import rules_of_chess.CheckForAttacksAtLocation;
-import rules_of_chess.ValidationCheckForPiece;
+import com.game.items_of_chess_game.Board;
+import com.game.rules_of_chess.CheckForAttacksAtLocation;
+import com.game.rules_of_chess.ValidationCheckForPiece;
 
 public class Application {
 
@@ -20,8 +20,6 @@ public class Application {
 
 
         while (game){
-
-
 
 
             isWhiteTurn = !isWhiteTurn;//switch colors

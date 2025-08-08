@@ -1,8 +1,8 @@
-package rules_of_chess;
+package com.game.rules_of_chess;
 
-import items_of_chess_game.Board;
-import items_of_chess_game.NoPiece;
-import items_of_chess_game.Piece;
+import com.game.items_of_chess_game.Board;
+import com.game.items_of_chess_game.NoPiece;
+import com.game.items_of_chess_game.Piece;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package items_of_chess_game;
+package com.game.items_of_chess_game;
 
 import java.util.ArrayList;
 import java.util.List;

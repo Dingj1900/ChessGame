@@ -1,4 +1,4 @@
-package items_of_chess_game;
+package com.game.items_of_chess_game;
 
 public class Board {
 

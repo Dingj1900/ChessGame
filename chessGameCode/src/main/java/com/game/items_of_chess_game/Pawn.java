@@ -1,21 +1,35 @@
-package items_of_chess_game;
+package com.game.items_of_chess_game;
 
-public class Queen implements Piece  {
+import java.util.ArrayList;
+import java.util.List;
 
-    private final String color;
+public class Pawn implements Piece {
 
     private int [] location = new int[2];
 
+    private final String color;
 
-    public Queen(String color){
+    public Pawn(String color){
         this.color = color;
     }
 
-    @Override
-    public String getName() {
-        return "Queen";
+    //return a list of piece of moves that are in range but not check validated
+    public List<int []> moves(Piece [][] chessBoard){
+        List<int []> listOfMoves = new ArrayList<>();
+
+        //need custom moves for pawns
+
+        return listOfMoves;
+
     }
 
+
+
+    @Override
+    public String getName() {
+        return "Pawn";
+
+    }
     @Override
     public String getColor(){
         return color;
@@ -26,7 +40,6 @@ public class Queen implements Piece  {
         this.location[0] = column;
         this.location[1] = row;
     }
-
     @Override
     public void setLocation(int[]location) {
         this.location[0] = location[0];
